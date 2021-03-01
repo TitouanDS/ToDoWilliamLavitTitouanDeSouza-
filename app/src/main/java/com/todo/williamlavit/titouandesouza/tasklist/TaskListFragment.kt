@@ -18,17 +18,26 @@ class TaskListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_task_list, container, false)
     }
 
-    private val taskList = listOf(
+    private val taskList = mutableListOf(
         Task(id = "id_1", title = "Task 1", description = "description 1"),
         Task(id = "id_2", title = "Task 2"),
         Task(id = "id_3", title = "Task 3")
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = TaskListAdapter(taskList)
-        super.onViewCreated(view, savedInstanceState)
+        val adapter = TaskListAdapter(taskList)
+
+        recyclerView.adapter = adapter
+
+        adapter.onDeleteTask = { task ->
+            taskList.remove(task)
+            adapter.notifyDataSetChanged()
+        }
     }
+
+
 }
 
