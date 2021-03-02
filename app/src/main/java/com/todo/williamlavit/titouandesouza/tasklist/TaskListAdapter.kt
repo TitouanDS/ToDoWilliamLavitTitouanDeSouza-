@@ -11,9 +11,6 @@ import com.todo.williamlavit.titouandesouza.R
 import java.util.*
 
 class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
-    override fun getItemCount(): Int {
-        return taskList.size
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
@@ -25,31 +22,23 @@ class TaskListAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<T
         holder.bind(task)
     }
 
+    override fun getItemCount(): Int {
+        return taskList.size
+    }
+
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView = itemView.findViewById<TextView>(R.id.task_title)
         private val deleteButton = itemView.findViewById<ImageButton>(R.id.imageButton2)
-        private val floatingAddButton  = itemView.findViewById<FloatingActionButton>(R.id.floatingActionButton)
-
-
-
 
         fun bind(task: Task) {
             textView.text = task.toString()
+
             deleteButton.setOnClickListener {
                 onDeleteTask?.invoke(task)
             }
-
-            floatingAddButton.setOnClickListener {
-                onCreateTask
-            }
         }
-
     }
 
     var onDeleteTask: ((Task) -> Unit)? = null
-    var onCreateTask: Task = Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}")
-
-
-
 }
 
