@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.todo.williamlavit.titouandesouza.R
+import java.util.*
 
 class TaskListFragment : Fragment() {
     override fun onCreateView(
@@ -36,8 +37,14 @@ class TaskListFragment : Fragment() {
             taskList.remove(task)
             adapter.notifyDataSetChanged()
         }
-    }
 
+
+     /*   adapter.onCreateTask = { task ->
+            adapter.submitList(taskList.toList())
+            adapter.notifyDataSetChanged()
+        }*/
+
+    }
 
 }
 
