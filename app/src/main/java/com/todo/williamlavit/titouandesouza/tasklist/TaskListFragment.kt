@@ -16,6 +16,10 @@ import java.util.*
 
 class TaskListFragment : Fragment() {
 
+    companion object {
+        const val ADD_TASK_REQUEST_CODE = 666
+    }
+
     private val taskList = mutableListOf(
             Task(id = "id_1", title = "Task 1", description = "description 1"),
             Task(id = "id_2", title = "Task 2"),
@@ -39,8 +43,10 @@ class TaskListFragment : Fragment() {
         val floatingAddButton  = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
 
         floatingAddButton.setOnClickListener {
-            val taskAdd = Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}")
-            taskList.add(taskAdd)
+//            val taskAdd = Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}")
+//            taskList.add(taskAdd)
+            val intent = Intent(activity, TaskActivity::class.java)
+            startActivityForResult(intent, ADD_TASK_REQUEST_CODE)
             adapter.notifyDataSetChanged()
         }
 
@@ -52,19 +58,14 @@ class TaskListFragment : Fragment() {
         }
     }
 
-    val buttonSubmit  = view?.findViewById<Button>(R.id.buttonSubmit)
-
-    companion object {
-        const val ADD_TASK_REQUEST_CODE = 666
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val task = data?.getSerializableExtra(TaskActivity.TASK_KEY) as? Task
+        if (task != null) {
+            taskList.add(task)
+        }
     }
 
-    val intent = Intent(activity, TaskActivity::class.java)
-    startActivityForResult(intent, ADD_TASK_REQUEST_CODE
-
-
-    buttonSubmit.setOnClickListener {
-        val newTask = Task(id = UUID.randomUUID().toString(), title = "New Task !")
-    }
 
 
 }
